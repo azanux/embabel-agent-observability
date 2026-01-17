@@ -204,10 +204,10 @@ Your agents are now fully traced. No code changes required.
 
 | Backend | Type | Module |
 |---------|------|--------|
-u| **Langfuse** | Traces | [`opentelemetry-exporter-langfuse`](https://github.com/azanux/opentelemetry-exporter-langfuse) |
-| **Zipkin** | Traces | `opentelemetry-exporter-zipkin` |
-| **OTLP** (Jaeger, Tempo) | Traces | `opentelemetry-exporter-otlp` |
-| **Prometheus** | Metrics | `micrometer-registry-prometheus` |
+| **Langfuse** | Traces | [`opentelemetry-exporter-langfuse`](https://github.com/azanux/opentelemetry-exporter-langfuse) |
+| **Zipkin** | Traces | [`opentelemetry-exporter-zipkin`](https://github.com/open-telemetry/opentelemetry-java) |
+| **OTLP** (Jaeger, Tempo) | Traces | [`opentelemetry-exporter-otlp`](https://github.com/open-telemetry/opentelemetry-java) |
+| **Prometheus** | Metrics | [`micrometer-registry-prometheus`](https://github.com/micrometer-metrics/micrometer) |
 | **Custom** | Traces | Implement `SpanExporter` |
 
 > **Tip:** You can use multiple exporters simultaneously (e.g., Langfuse for traces + Prometheus for metrics).
