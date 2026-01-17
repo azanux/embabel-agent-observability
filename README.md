@@ -350,10 +350,11 @@ Apache License 2.0 - See [LICENSE](LICENSE) for details.
 
 ## Contributing
 
-Contributions are welcome! Please read our contributing guidelines before submitting PRs.
+Contributions are welcome! You can help by:
+- Reporting bugs or suggesting features
+- Submitting pull requests
+- Adding or improving tests
+
+> **Note:** This project will be submitted to the [Embabel](https://github.com/embabel) team for potential inclusion as an official add-on.
 
 ---
-
-<p align="center">
-  <sub>Built with OpenTelemetry and Spring Boot</sub>
-</p>
