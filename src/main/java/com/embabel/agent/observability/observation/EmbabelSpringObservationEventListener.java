@@ -175,10 +175,6 @@ public class EmbabelSpringObservationEventListener implements AgenticEventListen
         span.tag("embabel.agent.parent_id", parentId != null ? parentId : "");
         span.tag("embabel.agent.planner_type", plannerType);
         span.tag("embabel.event.type", "agent_process");
-        // Langfuse tags (disabled)
-        // span.tag("langfuse.span.name", agentName);
-        // span.tag("langfuse.trace.name", agentName);
-        // span.tag("langfuse.observation.type", "agent");
 
         if (!input.isEmpty()) {
             span.tag("input.value", truncate(input));
@@ -289,9 +285,6 @@ public class EmbabelSpringObservationEventListener implements AgenticEventListen
         span.tag("embabel.action.description", event.getAction().getDescription());
         span.tag("embabel.event.type", "action");
         span.tag("gen_ai.operation.name", "execute_action");
-        // Langfuse tags (disabled)
-        // span.tag("langfuse.span.name", shortName);
-        // span.tag("langfuse.observation.type", "span");
 
         String key = "action:" + runId + ":" + actionName;
         if (!input.isEmpty()) {
@@ -368,9 +361,6 @@ public class EmbabelSpringObservationEventListener implements AgenticEventListen
         span.tag("embabel.goal.name", goalName);
         span.tag("embabel.goal.short_name", shortGoalName);
         span.tag("embabel.event.type", "goal_achieved");
-        // Langfuse tags (disabled)
-        // span.tag("langfuse.span.name", shortGoalName);
-        // span.tag("langfuse.observation.type", "event");
 
         String snapshot = getBlackboardSnapshot(process);
         if (!snapshot.isEmpty()) {
@@ -622,9 +612,6 @@ public class EmbabelSpringObservationEventListener implements AgenticEventListen
         span.tag("embabel.event.type", "planning_ready");
         span.tag("embabel.agent.run_id", runId);
         span.tag("embabel.plan.planner_type", plannerType);
-        // Langfuse tags (disabled)
-        // span.tag("langfuse.span.name", "Planning Ready");
-        // span.tag("langfuse.observation.type", "event");
 
         if (event.getWorldState() != null) {
             span.tag("input.value", truncate(event.getWorldState().infoString(true, 0)));
@@ -667,9 +654,6 @@ public class EmbabelSpringObservationEventListener implements AgenticEventListen
         span.tag("embabel.plan.is_replanning", String.valueOf(isReplanning));
         span.tag("embabel.plan.iteration", String.valueOf(iteration));
         span.tag("embabel.plan.planner_type", process.getProcessOptions().getPlannerType().name());
-        // Langfuse tags (disabled)
-        // span.tag("langfuse.span.name", displayName);
-        // span.tag("langfuse.observation.type", "event");
 
         if (plan != null) {
             span.tag("embabel.plan.actions_count", String.valueOf(plan.getActions().size()));
@@ -713,9 +697,6 @@ public class EmbabelSpringObservationEventListener implements AgenticEventListen
         span.tag("embabel.event.type", "state_transition");
         span.tag("embabel.agent.run_id", runId);
         span.tag("embabel.state.to", stateName);
-        // Langfuse tags (disabled)
-        // span.tag("langfuse.span.name", "State: " + stateName);
-        // span.tag("langfuse.observation.type", "event");
 
         if (newState != null) {
             span.tag("input.value", truncate(newState.toString()));
@@ -748,9 +729,6 @@ public class EmbabelSpringObservationEventListener implements AgenticEventListen
         span.tag("embabel.event.type", "lifecycle_" + state.toLowerCase());
         span.tag("embabel.agent.run_id", runId);
         span.tag("embabel.lifecycle.state", state);
-        // Langfuse tags (disabled)
-        // span.tag("langfuse.span.name", "Lifecycle: " + state);
-        // span.tag("langfuse.observation.type", "event");
 
         String snapshot = getBlackboardSnapshot(process);
         if (!snapshot.isEmpty()) {
@@ -787,9 +765,6 @@ public class EmbabelSpringObservationEventListener implements AgenticEventListen
         span.tag("embabel.event.type", "object_added");
         span.tag("embabel.agent.run_id", runId);
         span.tag("embabel.object.type", objectType);
-        // Langfuse tags (disabled)
-        // span.tag("langfuse.span.name", "Object Added: " + objectType);
-        // span.tag("langfuse.observation.type", "event");
 
         if (value != null) {
             span.tag("input.value", truncate(value.toString()));
@@ -825,9 +800,6 @@ public class EmbabelSpringObservationEventListener implements AgenticEventListen
         span.tag("embabel.agent.run_id", runId);
         span.tag("embabel.object.name", name);
         span.tag("embabel.object.type", objectType);
-        // Langfuse tags (disabled)
-        // span.tag("langfuse.span.name", "Object Bound: " + name);
-        // span.tag("langfuse.observation.type", "event");
 
         if (value != null) {
             span.tag("input.value", truncate(value.toString()));

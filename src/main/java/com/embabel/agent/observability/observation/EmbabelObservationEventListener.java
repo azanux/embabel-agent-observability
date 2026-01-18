@@ -193,10 +193,6 @@ public class EmbabelObservationEventListener implements AgenticEventListener, Sm
                 .setParent(parentContext)
                 .setSpanKind(isSubagent ? SpanKind.INTERNAL : SpanKind.SERVER)
                 .setAttribute("name", agentName)
-                // Langfuse tags (disabled)
-                // .setAttribute("langfuse.span.name", agentName)
-                // .setAttribute("langfuse.trace.name", agentName)
-                // .setAttribute("langfuse.observation.type", "agent")
                 .setAttribute("gen_ai.operation.name", "agent")
                 .setAttribute("gen_ai.conversation.id", runId)
                 .setAttribute("embabel.agent.name", agentName)
@@ -298,9 +294,6 @@ public class EmbabelObservationEventListener implements AgenticEventListener, Sm
                 .setParent(parentContext)
                 .setSpanKind(SpanKind.INTERNAL)
                 .setAttribute("name", shortName)
-                // Langfuse tags (disabled)
-                // .setAttribute("langfuse.span.name", shortName)
-                // .setAttribute("langfuse.observation.type", "span")
                 .setAttribute("gen_ai.operation.name", "execute_action")
                 .setAttribute("embabel.action.name", actionName)
                 .setAttribute("embabel.action.short_name", shortName)
@@ -372,9 +365,6 @@ public class EmbabelObservationEventListener implements AgenticEventListener, Sm
                 .setParent(parentContext)
                 .setSpanKind(SpanKind.INTERNAL)
                 .setAttribute("name", shortGoalName)
-                // Langfuse tags (disabled)
-                // .setAttribute("langfuse.span.name", shortGoalName)
-                // .setAttribute("langfuse.observation.type", "event")
                 .setAttribute("embabel.goal.name", goalName)
                 .setAttribute("embabel.goal.short_name", shortGoalName)
                 .setAttribute("embabel.event.type", "goal_achieved")
@@ -638,9 +628,6 @@ public class EmbabelObservationEventListener implements AgenticEventListener, Sm
                 .setParent(parentContext)
                 .setSpanKind(SpanKind.INTERNAL)
                 .setAttribute("name", "planning:ready")
-                // Langfuse tags (disabled)
-                // .setAttribute("langfuse.span.name", "Planning Ready")
-                // .setAttribute("langfuse.observation.type", "event")
                 .setAttribute("embabel.event.type", "planning_ready")
                 .setAttribute("embabel.agent.run_id", runId)
                 .setAttribute("embabel.plan.planner_type", plannerType)
@@ -674,9 +661,6 @@ public class EmbabelObservationEventListener implements AgenticEventListener, Sm
                 .setParent(parentContext)
                 .setSpanKind(SpanKind.INTERNAL)
                 .setAttribute("name", spanName)
-                // Langfuse tags (disabled)
-                // .setAttribute("langfuse.span.name", displayName)
-                // .setAttribute("langfuse.observation.type", "event")
                 .setAttribute("gen_ai.operation.name", isReplanning ? "replanning" : "planning")
                 .setAttribute("embabel.event.type", isReplanning ? "replanning" : "plan_formulated")
                 .setAttribute("embabel.agent.run_id", runId)
@@ -696,11 +680,6 @@ public class EmbabelObservationEventListener implements AgenticEventListener, Sm
         if (event.getWorldState() != null) {
             span.setAttribute("input.value", truncate(event.getWorldState().infoString(true, 0)));
         }
-
-        // Langfuse tags (disabled)
-        // if (isReplanning) {
-        //     span.setAttribute("langfuse.level", "WARNING");
-        // }
 
         span.setStatus(StatusCode.OK);
         span.end();
@@ -724,9 +703,6 @@ public class EmbabelObservationEventListener implements AgenticEventListener, Sm
                 .setParent(parentContext)
                 .setSpanKind(SpanKind.INTERNAL)
                 .setAttribute("name", "state:" + stateName)
-                // Langfuse tags (disabled)
-                // .setAttribute("langfuse.span.name", "State: " + stateName)
-                // .setAttribute("langfuse.observation.type", "event")
                 .setAttribute("embabel.event.type", "state_transition")
                 .setAttribute("embabel.agent.run_id", runId)
                 .setAttribute("embabel.state.to", stateName)
@@ -757,18 +733,10 @@ public class EmbabelObservationEventListener implements AgenticEventListener, Sm
                 .setParent(parentContext)
                 .setSpanKind(SpanKind.INTERNAL)
                 .setAttribute("name", "lifecycle:" + state.toLowerCase())
-                // Langfuse tags (disabled)
-                // .setAttribute("langfuse.span.name", "Lifecycle: " + state)
-                // .setAttribute("langfuse.observation.type", "event")
                 .setAttribute("embabel.event.type", "lifecycle_" + state.toLowerCase())
                 .setAttribute("embabel.agent.run_id", runId)
                 .setAttribute("embabel.lifecycle.state", state)
                 .startSpan();
-
-        // Langfuse tags (disabled)
-        // if ("STUCK".equals(state) || "PAUSED".equals(state)) {
-        //     span.setAttribute("langfuse.level", "WARNING");
-        // }
 
         String snapshot = getBlackboardSnapshot(process);
         if (!snapshot.isEmpty()) {
@@ -797,9 +765,6 @@ public class EmbabelObservationEventListener implements AgenticEventListener, Sm
                 .setParent(parentContext)
                 .setSpanKind(SpanKind.INTERNAL)
                 .setAttribute("name", "object:added:" + objectType)
-                // Langfuse tags (disabled)
-                // .setAttribute("langfuse.span.name", "Object Added: " + objectType)
-                // .setAttribute("langfuse.observation.type", "event")
                 .setAttribute("embabel.event.type", "object_added")
                 .setAttribute("embabel.agent.run_id", runId)
                 .setAttribute("embabel.object.type", objectType)
@@ -831,9 +796,6 @@ public class EmbabelObservationEventListener implements AgenticEventListener, Sm
                 .setParent(parentContext)
                 .setSpanKind(SpanKind.INTERNAL)
                 .setAttribute("name", "object:bound:" + name)
-                // Langfuse tags (disabled)
-                // .setAttribute("langfuse.span.name", "Object Bound: " + name)
-                // .setAttribute("langfuse.observation.type", "event")
                 .setAttribute("embabel.event.type", "object_bound")
                 .setAttribute("embabel.agent.run_id", runId)
                 .setAttribute("embabel.object.name", name)

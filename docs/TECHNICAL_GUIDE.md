@@ -771,8 +771,6 @@ These metrics are accessible via Spring Boot Actuator (`/actuator/metrics`).
 | `embabel.lifecycle.state` | WAITING |
 | `input.value` | (input content) |
 | `output.value` | (output content) |
-| `langfuse.span.name` | Name for Langfuse |
-| `langfuse.observation.type` | agent/span/tool/event |
 
 ---
 
@@ -784,7 +782,7 @@ These metrics are accessible via Spring Boot Actuator (`/actuator/metrics`).
 <dependency>
     <groupId>com.embabel.agent</groupId>
     <artifactId>embabel-agent-observability</artifactId>
-    <version>0.3.2</version>
+    <version>0.3.2-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -796,7 +794,7 @@ These metrics are accessible via Spring Boot Actuator (`/actuator/metrics`).
 <dependency>
     <groupId>com.embabel.agent</groupId>
     <artifactId>embabel-agent-observability-langfuse</artifactId>
-    <version>0.3.2</version>
+    <version>0.3.2-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -823,7 +821,7 @@ management:
       endpoint: http://localhost:9411/api/v2/spans
 ```
 
-#### Option C: OTLP (Jaeger, etc.)
+#### OTLP (Jaeger, etc.)
 
 ```xml
 <dependency>
