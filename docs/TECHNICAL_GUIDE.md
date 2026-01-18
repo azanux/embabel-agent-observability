@@ -786,7 +786,30 @@ These metrics are accessible via Spring Boot Actuator (`/actuator/metrics`).
 </dependency>
 ```
 
-### Step 2: Add an Exporter
+### Step 2: Add Common Configuration
+
+This configuration is required for all exporters:
+
+```yaml
+# Embabel Observability
+embabel:
+  observability:
+    enabled: true
+    service-name: my-application
+    implementation: SPRING_OBSERVATION
+    trace-agent-events: true
+    trace-tool-calls: true
+    trace-llm-calls: true
+
+# Spring Boot Tracing (required)
+management:
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1.0  # 1.0 = 100% of traces, 0.5 = 50%, etc.
+```
+
+### Step 3: Add an Exporter
 
 #### Option A: Langfuse
 
@@ -798,11 +821,22 @@ These metrics are accessible via Spring Boot Actuator (`/actuator/metrics`).
 </dependency>
 ```
 
+**For Langfuse Cloud:**
 ```yaml
 langfuse:
   public-key: pk-lf-...
   secret-key: sk-lf-...
   host: https://cloud.langfuse.com
+```
+
+**For local Langfuse instance (self-hosted):**
+```yaml
+management:
+  langfuse:
+    enabled: true
+    endpoint: http://localhost:3000/api/public/otel
+    public-key: pk-lf-your-public-key
+    secret-key: sk-lf-your-secret-key
 ```
 
 #### Option B: Zipkin
@@ -821,7 +855,7 @@ management:
       endpoint: http://localhost:9411/api/v2/spans
 ```
 
-#### OTLP (Jaeger, etc.)
+#### Option C: OTLP (Jaeger, etc.)
 
 ```xml
 <dependency>
@@ -835,19 +869,6 @@ management:
   otlp:
     tracing:
       endpoint: http://localhost:4317
-```
-
-### Step 3: Configure
-
-```yaml
-embabel:
-  observability:
-    enabled: true
-    service-name: my-application
-    implementation: SPRING_OBSERVATION
-    trace-agent-events: true
-    trace-tool-calls: true
-    trace-llm-calls: true
 ```
 
 ### Step 4: That's It!
@@ -955,15 +976,42 @@ Auto-configuration handles the rest. Your Embabel agents are now traced automati
 
 ## 12. Supported Exporters
 
+> **Note**: All exporters require the common tracing configuration:
+> ```yaml
+> management:
+>   tracing:
+>     enabled: true
+>     sampling:
+>       probability: 1.0
+> ```
+
 ### Langfuse
 
-**Module**: `embabel-agent-observability-langfuse`
+**Module**: `opentelemetry-exporter-langfuse`
 
 **Specific Attributes**:
 - `langfuse.span.name`: Name displayed in Langfuse
 - `langfuse.trace.name`: Trace name
 - `langfuse.observation.type`: Type (agent, span, tool, event)
 - `langfuse.level`: Level (WARNING for replanning/stuck)
+
+**For Langfuse Cloud:**
+```yaml
+langfuse:
+  public-key: pk-lf-...
+  secret-key: sk-lf-...
+  host: https://cloud.langfuse.com
+```
+
+**For local Langfuse instance (self-hosted):**
+```yaml
+management:
+  langfuse:
+    enabled: true
+    endpoint: http://localhost:3000/api/public/otel
+    public-key: pk-lf-your-public-key
+    secret-key: sk-lf-your-secret-key
+```
 
 ### Zipkin
 

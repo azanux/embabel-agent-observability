@@ -40,7 +40,24 @@
 </dependency>
 ```
 
-### 2. Choose your exporter
+### 2. Add common configuration
+
+```yaml
+# Embabel Observability
+embabel:
+  observability:
+    enabled: true
+    service-name: my-agent-app
+
+# Spring Boot Tracing (required)
+management:
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1.0  # 1.0 = 100% of traces, 0.5 = 50%, etc.
+```
+
+### 3. Choose your exporter
 
 <details>
 <summary><b>Option A: Langfuse</b> (LLM-focused observability)</summary>
@@ -61,16 +78,22 @@ Then add the dependency:
 </dependency>
 ```
 
+**For Langfuse Cloud:**
 ```yaml
-embabel:
-  observability:
-    enabled: true
-    service-name: my-agent-app
-
 langfuse:
   public-key: pk-lf-...
   secret-key: sk-lf-...
   host: https://cloud.langfuse.com
+```
+
+**For local Langfuse instance (self-hosted):**
+```yaml
+management:
+  langfuse:
+    enabled: true
+    endpoint: http://localhost:3000/api/public/otel
+    public-key: pk-lf-your-public-key
+    secret-key: sk-lf-your-secret-key
 ```
 
 </details>
@@ -86,11 +109,6 @@ langfuse:
 ```
 
 ```yaml
-embabel:
-  observability:
-    enabled: true
-    service-name: my-agent-app
-
 management:
   zipkin:
     tracing:
@@ -117,8 +135,6 @@ docker run -d -p 9411:9411 openzipkin/zipkin
 ```yaml
 embabel:
   observability:
-    enabled: true
-    service-name: my-agent-app
     implementation: SPRING_OBSERVATION  # Required for metrics
 
 management:
@@ -153,11 +169,6 @@ docker run -d -p 3000:3000 grafana/grafana
 ```
 
 ```yaml
-embabel:
-  observability:
-    enabled: true
-    service-name: my-agent-app
-
 management:
   otlp:
     tracing:
@@ -166,7 +177,7 @@ management:
 
 </details>
 
-### 3. Done!
+### 4. Done!
 
 Your agents are now fully traced. No code changes required.
 
@@ -356,5 +367,37 @@ Contributions are welcome! You can help by:
 - Adding or improving tests
 
 > **Note:** This project will be submitted to the [Embabel](https://github.com/embabel) team for potential inclusion as an official add-on.
+
+---
+
+## FAQ
+
+### ClassNotFoundException with OpenTelemetry
+
+**Problem:** You get a `ClassNotFoundException` or `NoClassDefFoundError` related to OpenTelemetry classes.
+
+**Solution:** Add the OpenTelemetry BOM to your project to align all OpenTelemetry dependency versions:
+
+```xml
+<dependencyManagement>
+  <dependencies>
+    <!-- OpenTelemetry BOM - must be first to override other BOMs -->
+    <dependency>
+      <groupId>io.opentelemetry</groupId>
+      <artifactId>opentelemetry-bom</artifactId>
+      <version>1.44.1</version>
+      <type>pom</type>
+      <scope>import</scope>
+    </dependency>
+    <!-- ... your other dependencies ... -->
+  </dependencies>
+</dependencyManagement>
+```
+
+After adding the BOM, remove explicit version numbers from your OpenTelemetry dependencies and run a clean build:
+
+```bash
+./mvnw clean spring-boot:run
+```
 
 ---
