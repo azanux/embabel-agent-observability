@@ -47,7 +47,7 @@
 
 First, clone and install the Langfuse exporter locally:
 ```bash
-git clone https://github.com/azanux/opentelemetry-exporter-langfuse
+git clone https://github.com/quantpulsar/opentelemetry-exporter-langfuse
 cd opentelemetry-exporter-langfuse
 mvn clean install
 ```
@@ -55,7 +55,7 @@ mvn clean install
 Then add the dependency:
 ```xml
 <dependency>
-    <groupId>com.langfuse</groupId>
+    <groupId>com.quantpulsar</groupId>
     <artifactId>opentelemetry-exporter-langfuse</artifactId>
     <version>0.3.2-SNAPSHOT</version>
 </dependency>
@@ -204,7 +204,7 @@ Your agents are now fully traced. No code changes required.
 
 | Backend | Type | Module |
 |---------|------|--------|
-| **Langfuse** | Traces | [`opentelemetry-exporter-langfuse`](https://github.com/azanux/opentelemetry-exporter-langfuse) |
+| **Langfuse** | Traces | [`opentelemetry-exporter-langfuse`](https://github.com/quantpulsar/opentelemetry-exporter-langfuse) |
 | **Zipkin** | Traces | [`opentelemetry-exporter-zipkin`](https://github.com/open-telemetry/opentelemetry-java) |
 | **OTLP** (Jaeger, Tempo) | Traces | [`opentelemetry-exporter-otlp`](https://github.com/open-telemetry/opentelemetry-java) |
 | **Prometheus** | Metrics | [`micrometer-registry-prometheus`](https://github.com/micrometer-metrics/micrometer) |

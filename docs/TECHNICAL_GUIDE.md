@@ -792,8 +792,8 @@ These metrics are accessible via Spring Boot Actuator (`/actuator/metrics`).
 
 ```xml
 <dependency>
-    <groupId>com.embabel.agent</groupId>
-    <artifactId>embabel-agent-observability-langfuse</artifactId>
+    <groupId>com.quantpulsar</groupId>
+    <artifactId>opentelemetry-exporter-langfuse</artifactId>
     <version>0.3.2-SNAPSHOT</version>
 </dependency>
 ```
