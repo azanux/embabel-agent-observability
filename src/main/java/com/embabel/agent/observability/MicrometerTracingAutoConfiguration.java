@@ -26,10 +26,7 @@ import org.springframework.context.annotation.Bean;
  * @author Quantpulsar 2025-2026
  * @see OpenTelemetrySdkAutoConfiguration
  */
-@AutoConfiguration(
-        after = OpenTelemetrySdkAutoConfiguration.class,
-        beforeName = "org.springframework.boot.actuate.autoconfigure.tracing.OpenTelemetryAutoConfiguration"
-)
+@AutoConfiguration(after = OpenTelemetrySdkAutoConfiguration.class)
 @ConditionalOnClass({OtelTracer.class, OpenTelemetry.class, ObservationRegistry.class})
 @ConditionalOnProperty(prefix = "embabel.observability", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class MicrometerTracingAutoConfiguration {

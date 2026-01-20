@@ -14,11 +14,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.Ordered;
 
 import java.util.List;
 import java.util.Objects;
@@ -27,12 +29,16 @@ import java.util.Objects;
  * Auto-configuration for OpenTelemetry SDK with multi-exporter support.
  * Configures SdkTracerProvider and exports spans to backends (Langfuse, Zipkin, OTLP, etc.).
  *
+ * <p>This configuration uses {@link AutoConfigureOrder} with low precedence to ensure
+ * it runs AFTER all Spring Boot exporter auto-configurations (Zipkin, OTLP, etc.)
+ * have created their {@link SpanExporter} beans. This is framework-agnostic and works
+ * with any exporter that Spring Boot auto-configures.
+ *
  * @author Quantpulsar 2025-2026
  * @see ObservabilityProperties
  */
-@AutoConfiguration(
-        beforeName = "org.springframework.boot.actuate.autoconfigure.tracing.OpenTelemetryAutoConfiguration"
-)
+@AutoConfiguration
+@AutoConfigureOrder(Ordered.LOWEST_PRECEDENCE - 10)
 @EnableConfigurationProperties(ObservabilityProperties.class)
 @ConditionalOnClass({SdkTracerProvider.class, OpenTelemetry.class})
 @ConditionalOnProperty(prefix = "embabel.observability", name = "enabled", havingValue = "true", matchIfMissing = true)
