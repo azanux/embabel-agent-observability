@@ -1,7 +1,10 @@
 package com.embabel.agent.observability.observation;
 
 import com.embabel.agent.api.event.*;
+import com.embabel.agent.core.Action;
 import com.embabel.agent.core.AgentProcess;
+import com.embabel.agent.core.Blackboard;
+import com.embabel.agent.core.IoBinding;
 import com.embabel.agent.core.ToolGroupMetadata;
 import com.embabel.agent.observability.ObservabilityProperties;
 import com.embabel.plan.Plan;
@@ -263,9 +266,10 @@ public class EmbabelSpringObservationEventListener implements AgenticEventListen
     private void onActionStart(ActionExecutionStartEvent event) {
         AgentProcess process = event.getAgentProcess();
         String runId = process.getId();
-        String actionName = event.getAction().getName();
-        String shortName = event.getAction().shortName();
-        String input = getBlackboardSnapshot(process);
+        Action action = event.getAction();
+        String actionName = action.getName();
+        String shortName = action.shortName();
+        String input = getActionInputs(action, process);
 
         // Get parent span - prefer agent span
         SpanContext parentCtx = activeSpans.get("agent:" + runId);
@@ -875,6 +879,49 @@ public class EmbabelSpringObservationEventListener implements AgenticEventListen
                 if (sb.length() > 0) sb.append("\n---\n");
                 sb.append(obj.getClass().getSimpleName()).append(": ");
                 sb.append(obj.toString());
+            }
+        }
+        return sb.toString();
+    }
+
+    /**
+     * Extracts the declared inputs for an action from the blackboard.
+     * Uses action.getInputs() to get the IoBinding declarations, then resolves
+     * each binding from the blackboard using getValue().
+     *
+     * @param action the action being executed
+     * @param process the agent process containing the blackboard
+     * @return formatted string of action inputs, or empty string if no inputs
+     */
+    private String getActionInputs(Action action, AgentProcess process) {
+        var inputs = action.getInputs();
+        if (inputs == null || inputs.isEmpty()) {
+            return "";
+        }
+
+        Blackboard blackboard = process.getBlackboard();
+        StringBuilder sb = new StringBuilder();
+
+        for (IoBinding input : inputs) {
+            // IoBinding is a Kotlin value class - parse the raw value "name:type"
+            String bindingValue = input.getValue();
+            String name;
+            String type;
+            if (bindingValue.contains(":")) {
+                String[] parts = bindingValue.split(":", 2);
+                name = parts[0];
+                type = parts[1];
+            } else {
+                name = "it"; // DEFAULT_BINDING
+                type = bindingValue;
+            }
+
+            Object value = blackboard.getValue(name, type, process.getAgent());
+
+            if (value != null) {
+                if (sb.length() > 0) sb.append("\n---\n");
+                sb.append(name).append(" (").append(type).append("): ");
+                sb.append(value.toString());
             }
         }
         return sb.toString();
