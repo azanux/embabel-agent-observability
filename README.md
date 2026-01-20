@@ -80,10 +80,12 @@ Then add the dependency:
 
 **For Langfuse Cloud:**
 ```yaml
-langfuse:
-  public-key: pk-lf-...
-  secret-key: sk-lf-...
-  host: https://cloud.langfuse.com
+management:
+  langfuse:
+    enabled: true
+    endpoint: https://cloud.langfuse.com/api/public/otel
+    public-key: pk-lf-...
+    secret-key: sk-lf-...
 ```
 
 **For local Langfuse instance (self-hosted):**
