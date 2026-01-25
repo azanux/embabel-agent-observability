@@ -22,10 +22,18 @@ import io.micrometer.tracing.handler.DefaultTracingObservationHandler;
  */
 public class NonEmbabelTracingObservationHandler extends DefaultTracingObservationHandler {
 
+    /**
+     * Creates a new handler.
+     *
+     * @param tracer the Micrometer tracer
+     */
     public NonEmbabelTracingObservationHandler(Tracer tracer) {
         super(tracer);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean supportsContext(Observation.Context context) {
         // Handle ALL contexts EXCEPT EmbabelObservationContext

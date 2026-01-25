@@ -10,13 +10,23 @@ import io.micrometer.observation.Observation;
  */
 public class EmbabelObservationContext extends Observation.Context {
 
+    /**
+     * Types of events that can be observed during agent execution.
+     */
     public enum EventType {
+        /** Main agent processing event. */
         AGENT_PROCESS,
+        /** Action execution event. */
         ACTION,
+        /** Goal achievement event. */
         GOAL,
+        /** External tool invocation event. */
         TOOL_CALL,
+        /** Planning phase event. */
         PLANNING,
+        /** State transition event. */
         STATE_TRANSITION,
+        /** Agent lifecycle event. */
         LIFECYCLE
     }
 
@@ -25,6 +35,15 @@ public class EmbabelObservationContext extends Observation.Context {
     private final EventType eventType;
     private final String parentRunId;
 
+    /**
+     * Creates a new observation context.
+     *
+     * @param root        true if this is a root agent
+     * @param runId       unique run identifier
+     * @param name        observation name
+     * @param eventType   type of event
+     * @param parentRunId parent run identifier, or null
+     */
     public EmbabelObservationContext(boolean root, String runId, String name,
                                      EventType eventType, String parentRunId) {
         this.root = root;
@@ -34,58 +53,119 @@ public class EmbabelObservationContext extends Observation.Context {
         setName(name);
     }
 
-    /** Creates context for a root agent (starts new trace). */
+    /**
+     * Creates context for a root agent (starts new trace).
+     *
+     * @param runId     unique run identifier
+     * @param agentName name of the agent
+     * @return the observation context
+     */
     public static EmbabelObservationContext rootAgent(String runId, String agentName) {
         return new EmbabelObservationContext(true, runId, agentName, EventType.AGENT_PROCESS, null);
     }
 
-    /** Creates context for a subagent (child of parent agent). */
+    /**
+     * Creates context for a subagent (child of parent agent).
+     *
+     * @param runId       unique run identifier
+     * @param agentName   name of the agent
+     * @param parentRunId parent run identifier
+     * @return the observation context
+     */
     public static EmbabelObservationContext subAgent(String runId, String agentName, String parentRunId) {
         return new EmbabelObservationContext(false, runId, agentName, EventType.AGENT_PROCESS, parentRunId);
     }
 
-    /** Creates context for an action. */
+    /**
+     * Creates context for an action.
+     *
+     * @param runId      unique run identifier
+     * @param actionName name of the action
+     * @return the observation context
+     */
     public static EmbabelObservationContext action(String runId, String actionName) {
         return new EmbabelObservationContext(false, runId, actionName, EventType.ACTION, null);
     }
 
-    /** Creates context for a goal achievement. */
+    /**
+     * Creates context for a goal achievement.
+     *
+     * @param runId    unique run identifier
+     * @param goalName name of the goal
+     * @return the observation context
+     */
     public static EmbabelObservationContext goal(String runId, String goalName) {
         return new EmbabelObservationContext(false, runId, goalName, EventType.GOAL, null);
     }
 
-    /** Creates context for a tool call. */
+    /**
+     * Creates context for a tool call.
+     *
+     * @param runId    unique run identifier
+     * @param toolName name of the tool
+     * @return the observation context
+     */
     public static EmbabelObservationContext toolCall(String runId, String toolName) {
         return new EmbabelObservationContext(false, runId, toolName, EventType.TOOL_CALL, null);
     }
 
-    /** Creates context for a planning event. */
+    /**
+     * Creates context for a planning event.
+     *
+     * @param runId        unique run identifier
+     * @param planningName name of the planning phase
+     * @return the observation context
+     */
     public static EmbabelObservationContext planning(String runId, String planningName) {
         return new EmbabelObservationContext(false, runId, planningName, EventType.PLANNING, null);
     }
 
-    /** Creates context for a state transition. */
+    /**
+     * Creates context for a state transition.
+     *
+     * @param runId     unique run identifier
+     * @param stateName name of the state
+     * @return the observation context
+     */
     public static EmbabelObservationContext stateTransition(String runId, String stateName) {
         return new EmbabelObservationContext(false, runId, stateName, EventType.STATE_TRANSITION, null);
     }
 
-    /** Creates context for a lifecycle state event. */
+    /**
+     * Creates context for a lifecycle state event.
+     *
+     * @param runId          unique run identifier
+     * @param lifecycleState name of the lifecycle state
+     * @return the observation context
+     */
     public static EmbabelObservationContext lifecycle(String runId, String lifecycleState) {
         return new EmbabelObservationContext(false, runId, lifecycleState, EventType.LIFECYCLE, null);
     }
 
+    /**
+     * @return true if this is a root agent context
+     */
     public boolean isRoot() {
         return root;
     }
 
+    /**
+     * @return the unique run identifier
+     */
     public String getRunId() {
         return runId;
     }
 
+    /**
+     * @return the event type
+     */
     public EventType getEventType() {
         return eventType;
     }
 
+    /**
+     * @return the parent run identifier, or null
+     */
     public String getParentRunId() {
         return parentRunId;
     }

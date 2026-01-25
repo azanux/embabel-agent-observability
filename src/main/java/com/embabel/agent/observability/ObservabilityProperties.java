@@ -11,6 +11,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "embabel.observability")
 public class ObservabilityProperties {
 
+    /**
+     * Default constructor.
+     */
     public ObservabilityProperties() {
     }
 

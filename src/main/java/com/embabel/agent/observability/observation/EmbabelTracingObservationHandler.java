@@ -28,22 +28,38 @@ public class EmbabelTracingObservationHandler
     private final Map<String, Span> activeAgentSpans = new ConcurrentHashMap<>();
     private final Map<String, Span> activeActionSpans = new ConcurrentHashMap<>();
     private final Map<Integer, Tracer.SpanInScope> activeScopes = new ConcurrentHashMap<>();
+
+    /**
+     * Creates a new handler.
+     *
+     * @param tracer     the Micrometer tracer
+     * @param otelTracer the OpenTelemetry tracer
+     */
     public EmbabelTracingObservationHandler(Tracer tracer, io.opentelemetry.api.trace.Tracer otelTracer) {
         this.tracer = tracer;
         this.otelTracer = otelTracer;
         log.info("EmbabelTracingObservationHandler initialized");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Tracer getTracer() {
         return tracer;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean supportsContext(Observation.Context context) {
         return context instanceof EmbabelObservationContext;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onStart(EmbabelObservationContext context) {
         Span span;
@@ -71,6 +87,9 @@ public class EmbabelTracingObservationHandler
         trackActiveSpan(context, span);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onScopeOpened(EmbabelObservationContext context) {
         Span span = getTracingContext(context).getSpan();
@@ -81,6 +100,9 @@ public class EmbabelTracingObservationHandler
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onScopeClosed(EmbabelObservationContext context) {
         Tracer.SpanInScope scope = activeScopes.remove(System.identityHashCode(context));
@@ -89,6 +111,9 @@ public class EmbabelTracingObservationHandler
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onStop(EmbabelObservationContext context) {
         Span span = getRequiredSpan(context);
@@ -109,6 +134,9 @@ public class EmbabelTracingObservationHandler
                 context.getEventType(), context.getName(), context.getRunId());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onError(EmbabelObservationContext context) {
         Throwable error = context.getError();
@@ -122,6 +150,9 @@ public class EmbabelTracingObservationHandler
 
     /**
      * Creates a root span with no parent by clearing context.
+     *
+     * @param name the span name
+     * @return the created root span
      */
     private Span createRootSpan(String name) {
         Span rootSpan;
@@ -135,6 +166,9 @@ public class EmbabelTracingObservationHandler
     /**
      * Resolves the parent span from Embabel hierarchy or current tracer context.
      * For tool calls, uses current tracer span to integrate with Spring AI ChatClient.
+     *
+     * @param context the observation context
+     * @return the parent span, or null if none
      */
     private Span resolveParentSpan(EmbabelObservationContext context) {
         String runId = context.getRunId();
@@ -180,6 +214,9 @@ public class EmbabelTracingObservationHandler
 
     /**
      * Tracks active span for parent resolution.
+     *
+     * @param context the observation context
+     * @param span    the span to track
      */
     private void trackActiveSpan(EmbabelObservationContext context, Span span) {
         switch (context.getEventType()) {
@@ -194,6 +231,11 @@ public class EmbabelTracingObservationHandler
         }
     }
 
+    /**
+     * Removes span from active tracking when observation stops.
+     *
+     * @param context the observation context
+     */
     private void untrackActiveSpan(EmbabelObservationContext context) {
         switch (context.getEventType()) {
             case AGENT_PROCESS:
