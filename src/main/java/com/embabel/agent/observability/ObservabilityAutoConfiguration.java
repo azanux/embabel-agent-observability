@@ -38,11 +38,20 @@ public class ObservabilityAutoConfiguration {
 
     private static final Logger log = LoggerFactory.getLogger(ObservabilityAutoConfiguration.class);
 
+    /**
+     * Default constructor.
+     */
     public ObservabilityAutoConfiguration() {
     }
 
     /**
      * Creates the event listener based on configured implementation with automatic fallback.
+     *
+     * @param openTelemetryProvider the OpenTelemetry provider
+     * @param tracerProvider the Micrometer Tracer provider
+     * @param observationRegistryProvider the ObservationRegistry provider
+     * @param properties the observability properties
+     * @return the configured event listener
      */
     @Bean
     @ConditionalOnProperty(prefix = "embabel.observability", name = "trace-agent-events", havingValue = "true", matchIfMissing = true)
@@ -81,6 +90,9 @@ public class ObservabilityAutoConfiguration {
 
     /**
      * Creates filter to enrich Spring AI LLM observations with prompt/completion.
+     *
+     * @param properties the observability properties
+     * @return the configured observation filter
      */
     @Bean
     @ConditionalOnMissingBean

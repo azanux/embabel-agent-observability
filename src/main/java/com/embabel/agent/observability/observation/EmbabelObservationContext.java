@@ -143,6 +143,8 @@ public class EmbabelObservationContext extends Observation.Context {
     }
 
     /**
+     * Returns whether this is a root agent context.
+     *
      * @return true if this is a root agent context
      */
     public boolean isRoot() {
@@ -150,6 +152,8 @@ public class EmbabelObservationContext extends Observation.Context {
     }
 
     /**
+     * Returns the unique run identifier.
+     *
      * @return the unique run identifier
      */
     public String getRunId() {
@@ -157,6 +161,8 @@ public class EmbabelObservationContext extends Observation.Context {
     }
 
     /**
+     * Returns the event type.
+     *
      * @return the event type
      */
     public EventType getEventType() {
@@ -164,6 +170,8 @@ public class EmbabelObservationContext extends Observation.Context {
     }
 
     /**
+     * Returns the parent run identifier.
+     *
      * @return the parent run identifier, or null
      */
     public String getParentRunId() {

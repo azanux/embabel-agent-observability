@@ -46,11 +46,17 @@ public class OpenTelemetrySdkAutoConfiguration {
 
     private static final Logger log = LoggerFactory.getLogger(OpenTelemetrySdkAutoConfiguration.class);
 
+    /**
+     * Default constructor for OpenTelemetrySdkAutoConfiguration.
+     */
     public OpenTelemetrySdkAutoConfiguration() {
     }
 
     /**
      * Creates the OpenTelemetry Resource with service name.
+     *
+     * @param properties the observability configuration properties
+     * @return the configured OpenTelemetry Resource
      */
     @Bean
     @ConditionalOnMissingBean(Resource.class)
@@ -63,6 +69,11 @@ public class OpenTelemetrySdkAutoConfiguration {
 
     /**
      * Creates the SdkTracerProvider with all configured SpanExporters and SpanProcessors.
+     *
+     * @param exportersProvider provider for the list of SpanExporter beans
+     * @param processorsProvider provider for the list of SpanProcessor beans
+     * @param resource the OpenTelemetry Resource to associate with traces
+     * @return the configured SdkTracerProvider, or null if no exporters are available
      */
     @Bean
     @ConditionalOnMissingBean(SdkTracerProvider.class)
@@ -123,6 +134,9 @@ public class OpenTelemetrySdkAutoConfiguration {
 
     /**
      * Creates the OpenTelemetry SDK instance and registers it globally.
+     *
+     * @param tracerProviderProvider provider for the SdkTracerProvider bean
+     * @return the configured OpenTelemetry instance, or a noop instance if no tracer provider is available
      */
     @Bean
     @ConditionalOnMissingBean(OpenTelemetry.class)

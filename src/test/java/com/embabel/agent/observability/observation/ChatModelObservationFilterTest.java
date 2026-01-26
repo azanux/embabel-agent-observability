@@ -221,7 +221,6 @@ class ChatModelObservationFilterTest {
 
             // Verify spans
             List<SpanData> spans = spanExporter.getFinishedSpanItems();
-            printSpans(spans);
 
             assertThat(spans).hasSize(2);
 
@@ -285,7 +284,6 @@ class ChatModelObservationFilterTest {
 
             // Verify spans
             List<SpanData> spans = spanExporter.getFinishedSpanItems();
-            printSpans(spans);
 
             assertThat(spans).hasSize(4);
 
@@ -362,7 +360,6 @@ class ChatModelObservationFilterTest {
 
             // Verify spans
             List<SpanData> spans = spanExporter.getFinishedSpanItems();
-            printSpans(spans);
 
             assertThat(spans).hasSize(6); // root + agent + action + 3 chats
 
@@ -478,7 +475,6 @@ class ChatModelObservationFilterTest {
 
             // Verify spans
             List<SpanData> spans = spanExporter.getFinishedSpanItems();
-            printSpans(spans);
 
             assertThat(spans).hasSize(7); // root + agent1 + action1 + chat1 + agent2 + action2 + chat2
 
@@ -545,17 +541,6 @@ class ChatModelObservationFilterTest {
                     .filter(s -> s.getName().equals(name))
                     .findFirst()
                     .orElse(null);
-        }
-
-        private void printSpans(List<SpanData> spans) {
-            System.out.println("=== All exported spans (" + spans.size() + ") ===");
-            for (SpanData span : spans) {
-                System.out.println("  Span: name='" + span.getName()
-                        + "', traceId=" + span.getTraceId()
-                        + ", spanId=" + span.getSpanId()
-                        + ", parentSpanId=" + span.getParentSpanId());
-            }
-            System.out.println("=== End spans ===");
         }
     }
 }

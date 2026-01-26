@@ -18,7 +18,7 @@ class ObservabilityPropertiesTest {
         assertThat(props.getImplementation()).isEqualTo(ObservabilityProperties.Implementation.SPRING_OBSERVATION);
         assertThat(props.getServiceName()).isEqualTo("embabel-agent");
         assertThat(props.getTracerName()).isEqualTo("embabel-agent");
-        assertThat(props.getTracerVersion()).isEqualTo("0.3.2");
+        assertThat(props.getTracerVersion()).isEqualTo("0.3.3");
         assertThat(props.getMaxAttributeLength()).isEqualTo(4000);
     }
 

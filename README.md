@@ -36,7 +36,7 @@
 <dependency>
     <groupId>com.embabel.agent</groupId>
     <artifactId>embabel-agent-observability</artifactId>
-    <version>0.3.2-SNAPSHOT</version>
+    <version>0.3.3-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -74,7 +74,7 @@ Then add the dependency:
 <dependency>
     <groupId>com.quantpulsar</groupId>
     <artifactId>opentelemetry-exporter-langfuse</artifactId>
-    <version>0.3.2</version>
+    <version>0.3.3</version>
 </dependency>
 ```
 
@@ -351,7 +351,7 @@ For detailed technical documentation, architecture details, and API reference:
 
 - Java 21+
 - Spring Boot 3.5+
-- Embabel Agent 0.3.2+
+- Embabel Agent 0.3.3+
 
 ---
 

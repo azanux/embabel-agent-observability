@@ -36,7 +36,7 @@
 |----------|-------|
 | GroupId | `com.embabel.agent` |
 | ArtifactId | `embabel-agent-observability` |
-| Version | `0.3.2-SNAPSHOT` |
+| Version | `0.3.3-SNAPSHOT` |
 | Java | 21 |
 | Spring Boot | 3.5.9 |
 | Spring AI | 1.1.1 |
@@ -189,7 +189,7 @@ embabel-agent-observability/
 | Java | 21 |
 | Spring Boot | 3.5.9 |
 | Spring AI | 1.1.1 |
-| Embabel Agent | 0.3.2-SNAPSHOT |
+| Embabel Agent | 0.3.3-SNAPSHOT |
 | OpenTelemetry | 2.17.0 |
 
 ---
@@ -210,7 +210,7 @@ embabel-agent-observability/
 | `implementation` | enum | `SPRING_OBSERVATION` | Implementation type |
 | `service-name` | String | `embabel-agent` | Service name in traces |
 | `tracer-name` | String | `embabel-agent` | Instrumentation name |
-| `tracer-version` | String | `0.3.2` | Instrumentation version |
+| `tracer-version` | String | `0.3.3` | Instrumentation version |
 | `max-attribute-length` | int | `4000` | Max length before truncation |
 | `trace-agent-events` | boolean | `true` | Trace agent events |
 | `trace-tool-calls` | boolean | `true` | Trace tool calls |
@@ -782,7 +782,7 @@ These metrics are accessible via Spring Boot Actuator (`/actuator/metrics`).
 <dependency>
     <groupId>com.embabel.agent</groupId>
     <artifactId>embabel-agent-observability</artifactId>
-    <version>0.3.2-SNAPSHOT</version>
+    <version>0.3.3-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -817,7 +817,7 @@ management:
 <dependency>
     <groupId>com.quantpulsar</groupId>
     <artifactId>opentelemetry-exporter-langfuse</artifactId>
-    <version>0.3.2</version>
+    <version>0.3.3</version>
 </dependency>
 ```
 

@@ -33,11 +33,16 @@ public class MicrometerTracingAutoConfiguration {
 
     private static final Logger log = LoggerFactory.getLogger(MicrometerTracingAutoConfiguration.class);
 
+    /**
+     * Default constructor.
+     */
     public MicrometerTracingAutoConfiguration() {
     }
 
     /**
      * Creates OtelCurrentTraceContext for parent-child span propagation.
+     *
+     * @return the OtelCurrentTraceContext instance
      */
     @Bean
     @ConditionalOnMissingBean(OtelCurrentTraceContext.class)
@@ -48,6 +53,11 @@ public class MicrometerTracingAutoConfiguration {
 
     /**
      * Registers EmbabelTracingObservationHandler for root span creation and hierarchy management.
+     *
+     * @param tracerProvider the Micrometer Tracer provider
+     * @param otelProvider the OpenTelemetry provider
+     * @param properties the observability properties
+     * @return the customizer for the ObservationRegistry
      */
     @Bean
     @ConditionalOnProperty(prefix = "embabel.observability", name = "implementation",
@@ -96,6 +106,8 @@ public class MicrometerTracingAutoConfiguration {
      *   <li>All other contexts (Spring AI, HTTP, etc.) → handled by this handler</li>
      * </ul>
      *
+     * @param tracer the Micrometer Tracer
+     * @return the configured observation handler
      * @see <a href="https://github.com/spring-projects/spring-boot/blob/v3.1.5/spring-boot-project/spring-boot-actuator-autoconfigure/src/main/java/org/springframework/boot/actuate/autoconfigure/tracing/MicrometerTracingAutoConfiguration.java">
      *      Spring Boot MicrometerTracingAutoConfiguration</a>
      */
