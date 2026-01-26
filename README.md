@@ -74,7 +74,7 @@ Then add the dependency:
 <dependency>
     <groupId>com.quantpulsar</groupId>
     <artifactId>opentelemetry-exporter-langfuse</artifactId>
-    <version>0.3.2-SNAPSHOT</version>
+    <version>0.3.2</version>
 </dependency>
 ```
 
