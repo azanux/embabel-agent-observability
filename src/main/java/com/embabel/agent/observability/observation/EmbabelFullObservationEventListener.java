@@ -38,7 +38,12 @@ public class EmbabelFullObservationEventListener implements AgenticEventListener
     /** Holds Observation and its Scope. */
     private record ObservationContext(Observation observation, Observation.Scope scope) {}
 
-    /** Creates the listener with required dependencies. */
+    /**
+     * Creates the listener with required dependencies.
+     *
+     * @param observationRegistry the Spring Observation registry for creating spans
+     * @param properties the observability configuration properties
+     */
     public EmbabelFullObservationEventListener(
             ObservationRegistry observationRegistry,
             ObservabilityProperties properties) {
